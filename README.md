@@ -1,6 +1,9 @@
 # RemoteRobot
 
-Robotkar VR/AR távvezérlés az 5G nyújtotta lehetőségek kihasználásával
+Futószalagon érkező termékek félautomata seletdetekciója robotkar és VR eszközök segítségével, manuális vezérlési lehetőséggel.
 
 Használt technológiák:
--
+- ROS kinetic
+- Unity
+- Oculus
+- OpenCV
