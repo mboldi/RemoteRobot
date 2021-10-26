@@ -29,6 +29,16 @@ apt-get install python-pip
 python -m pip install pika --upgrade
 ```
 
+## Futtatás
+
+`
+roslaunch ur_gazebo ur5.launch
+`
+
+`
+roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+`
+
 ## RabbitMQ topic-ok
 
 A rendszer kétféle üzemmódban képes működni, egy a beállításokat elvégző személy számára hasznos kofigurációs mód, míg a másik az általános felhasználó által mindennaposan használt felhasználói mód. A két módban eltérő üzenettípusokkal kommunikál a kliensoldal és a ROS.
