@@ -8,6 +8,7 @@ Futószalagon érkező termékek félautomata selejtdetekciója robotkar és VR 
 - MoveIt
 - OpenCV
 - Unity
+- WebRTC
 - HTC Vive
 - RabbitMQ
 
@@ -28,6 +29,10 @@ RabbitMQ kommunikációhoz szükséges Python csomag telepítése
 apt-get install python-pip
 python -m pip install pika --upgrade
 ```
+
+Unity WebRTC
+
+https://docs.unity3d.com/Packages/com.unity.webrtc@2.3/manual
 
 ## Futtatás
 
