@@ -8,7 +8,7 @@ Futószalagon érkező termékek félautomata selejtdetekciója robotkar és VR 
 - MoveIt
 - OpenCV
 - Unity
-- WebRTC
+- RTP
 - HTC Vive
 - RabbitMQ
 
@@ -30,9 +30,6 @@ apt-get install python-pip
 python -m pip install pika --upgrade
 ```
 
-Unity WebRTC
-
-https://docs.unity3d.com/Packages/com.unity.webrtc@2.3/manual
 
 ## Futtatás
 
@@ -42,6 +39,12 @@ roslaunch ur_gazebo ur5.launch
 
 `
 roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+`
+
+RTP teszt
+
+`
+ffmpeg -stream_loop -1 -re -i test_video_2.mp4 -an -c:v copy -f rtp -sdp_file source.sdp "rtp://192.168.57.1:5004"
 `
 
 ## RabbitMQ topic-ok
