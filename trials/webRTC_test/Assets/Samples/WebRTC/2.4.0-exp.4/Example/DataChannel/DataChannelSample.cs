@@ -152,6 +152,7 @@ class DataChannelSample : MonoBehaviour
         if (!op.IsError)
         {
             yield return StartCoroutine(OnCreateOfferSuccess(op.Desc));
+            Debug.Log($"offer: \n{op.Desc}");
         }
         else
         {

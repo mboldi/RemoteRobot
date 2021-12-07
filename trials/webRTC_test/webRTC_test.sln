@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ef8ccb87-fbb0-ee81-ddb6-3675389c4fec}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.WebRTC.Samples", "Unity.WebRTC.Samples.csproj", "{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ef8ccb87-fbb0-ee81-ddb6-3675389c4fec}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{74be8832-d4a1-fb12-d68f-d6ffa92854fc}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ef8ccb87-fbb0-ee81-ddb6-3675389c4fec}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ef8ccb87-fbb0-ee81-ddb6-3675389c4fec}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ef8ccb87-fbb0-ee81-ddb6-3675389c4fec}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ef8ccb87-fbb0-ee81-ddb6-3675389c4fec}.Release|Any CPU.Build.0 = Release|Any CPU
+		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{d17d71ed-d14a-6e6e-0489-8d6c98bfbc13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74be8832-d4a1-fb12-d68f-d6ffa92854fc}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74be8832-d4a1-fb12-d68f-d6ffa92854fc}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74be8832-d4a1-fb12-d68f-d6ffa92854fc}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74be8832-d4a1-fb12-d68f-d6ffa92854fc}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
