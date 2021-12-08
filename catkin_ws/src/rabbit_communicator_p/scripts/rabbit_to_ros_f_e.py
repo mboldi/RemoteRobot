@@ -100,7 +100,7 @@ channel = connection.channel()
 
 makeQueues(channel)
 
-print(' [*] Waiting for msgs. To exit press CTRL+C')
+print(' [rabbit] Waiting for msgs. To exit press CTRL+C')
 
 channel.start_consuming()
 
