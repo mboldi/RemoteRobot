@@ -1,0 +1,206 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+%%%%%
+% Márta Boldizsár
+% 2021
+% marta.boldi13@gmail.com
+%%%%%
+
+\usepackage{t1enc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[thmmarks]{ntheorem}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{anysize}
+\usepackage[magyar]{babel}
+\usepackage{sectsty}
+\usepackage{setspace}  % Ettol a tablazatok, abrak, labjegyzetek maradnak 1-es sorkozzel!
+\usepackage[hang,flushmargin]{footmisc}
+\usepackage{textgreek}
+\usepackage{url}
+\usepackage{etoolbox}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{pifont}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{caption}
+\usepackage{newfloat}
+\usepackage{subcaption}
+\usepackage{threeparttable}
+\usepackage{ifthen}
+\usepackage{hyperref}
+\def\UrlBreaks{\do\/\do-\do.\do\_}
+\appto\UrlNoBreaks{\do\:}
+\usepackage{bookmark}
+\usepackage[nottoc]{tocbibind}
+
+\definecolor{light-gray}{rgb}{0.9,0.9,0.9}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+%--------------------------------------------------------------------------------------
+% Main variables
+%--------------------------------------------------------------------------------------
+\newcommand{\vikszerzo}{Márta Boldizsár}
+\newcommand{\vikkonzulens}{Forstner Bertalan}
+\newcommand{\vikcim}{Alacsony hálózati késleltetésre épülő AR megoldások telefonra és okosszemüvegre}
+\newcommand{\viktanszek}{Automatizálási és Alkalmazott Informatikai Tanszék}
+\newcommand{\vikdoktipus}{MSc Önálló laboratórium 1.}
+\newcommand{\vikdepartmentr}{Márta Boldizsár}
+
+%--------------------------------------------------------------------------------------
+% Page layout setup
+%--------------------------------------------------------------------------------------
+\pagestyle{plain}
+%\setlength{\parindent}{0pt} % áttekinthetőbb, angol nyelvű dokumentumokban jellemző
+\setlength{\parskip}{4pt plus 3pt minus 2pt} % áttekinthetőbb, angol nyelvű dokumentumokban jellemző
+\setlength{\parindent}{12pt} % magyar nyelvű dokumentumokban jellemző
+%\setlength{\parskip}{0pt}    % magyar nyelvű dokumentumokban jellemző
+
+\marginsize{35mm}{25mm}{15mm}{15mm} % anysize package
+\setcounter{secnumdepth}{0}
+\sectionfont{\large\upshape\bfseries}
+\setcounter{secnumdepth}{2}
+\singlespacing
+\frenchspacing
+
+%--------------------------------------------------------------------------------------
+%	Setup hyperref package
+%--------------------------------------------------------------------------------------
+\hypersetup{
+    bookmarks=true,            % show bookmarks bar?
+    unicode=false,             % non-Latin characters in Acrobat’s bookmarks
+    pdftitle={\vikcim},        % title
+    pdfauthor={\vikszerzo},    % author
+    pdfsubject={\vikdoktipus}, % subject of the document
+    pdfcreator={\vikszerzo},   % creator of the document
+    pdfproducer={TeXstudio, MiKTeX, PdfLaTeX, BibTeX},    % producer of the document
+    pdfkeywords={VR, Unity, ROS, Robot Arm, UR5e},    % list of keywords
+    pdfnewwindow=true,         % links in new window
+    colorlinks=true,           % false: boxed links; true: colored links
+    linkcolor=black,           % color of internal links
+    citecolor=black,           % color of links to bibliography
+    filecolor=black,           % color of file links
+    urlcolor=black             % color of external links
+}
+
+%--------------------------------------------------------------------------------------
+% Set up listings
+%--------------------------------------------------------------------------------------
+\DeclareFloatingEnvironment[fileext=locl,
+listname={Kódrészletek jegyzéke},
+name=kódrészlet,
+placement=hbt,
+within=chapter]{codelisting}
+
+\setminted{bgcolor=light-gray,frame=lines,breaklines,fontsize=\footnotesize,tabsize=3}
+
+
+%--------------------------------------------------------------------------------------
+%	Some new commands and declarations
+%--------------------------------------------------------------------------------------
+\newcommand{\figref}[1]{\ref{fig:#1}.}
+\renewcommand{\eqref}[1]{(\ref{eq:#1})}
+\newcommand{\listref}[1]{\ref{listing:#1}.}
+\newcommand{\sectref}[1]{\ref{sect:#1}.}
+\newcommand{\tabref}[1]{\ref{tab:#1}.}
+\newcommand{\listingref}[1]{\ref{listing:#1}.}
+
+\newcommand{\afigref}[1]{\aref{fig:#1}.}
+\newcommand{\aeqref}[1]{(\aref{eq:#1})}
+\newcommand{\alistref}[1]{\aref{listing:#1}.}
+\newcommand{\asectref}[1]{\aref{sect:#1}.}
+\newcommand{\atabref}[1]{\aref{tab:#1}.}
+\newcommand{\alistingref}[1]{\aref{listing:#1}.}
+
+\newcommand{\Afigref}[1]{\Aref{fig:#1}.}
+\newcommand{\Aeqref}[1]{(\Aref{eq:#1})}
+\newcommand{\Alistref}[1]{\Aref{listing:#1}.}
+\newcommand{\Asectref}[1]{\Aref{sect:#1}.}
+\newcommand{\Atabref}[1]{\Aref{tab:#1}.}
+\newcommand{\Alistingref}[1]{\Aref{listing:#1}.}
+
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
+\author{\vikszerzo}
+\title{\viktitle}
+\includeonly{
+	%guideline,%
+	%project,%
+	titlepage,%
+	%declaration,%
+	%abstract,%
+	%chapter1,%
+	%chapter2,%
+	%chapter3,%
+	%chapter4,%
+	%chapter5,%
+	%chapter6,%
+	%acknowledgement,%
+	%appendices,%
+}
+
+%--------------------------------------------------------------------------------------
+%	Setup captions
+%--------------------------------------------------------------------------------------
+\captionsetup[figure]{width=0.8\textwidth, aboveskip=10pt}
+\captionsetup[table]{width=0.8\textwidth, aboveskip=10pt}
+\captionsetup[codelisting]{width=0.8\textwidth, aboveskip=3pt}
+\captionsetup[sub]{labelformat=simple, labelsep=period}
+
+\renewcommand{\captionlabelfont}{\small\bf}
+\renewcommand{\captionfont}{\footnotesize\it}
+
+\newcommand{\insertfig}[4]{
+	\vspace*{2mm}
+	\begin{figure}[#4]
+		\center
+		\resizebox{#3}{!}{\includegraphics{images/#1}}
+		\parbox{0.8\textwidth}{\vspace*{4mm}\caption{{#2}}\small\label{fig:#1}}
+	\end{figure}
+	\vspace*{-2\parskip}
+}
+
+%--------------------------------------------------------------------------------------
+%	Setup table of ... and related commands
+%--------------------------------------------------------------------------------------
+\makeatletter
+\renewcommand*{\listof}[2]{%
+	\@ifundefined{ext@#1}{\float@error{#1}}{%
+		\expandafter\let\csname l@#1\endcsname \l@figure%
+		\float@listhead{#2}%
+		\begingroup
+		\setlength\parskip{4pt plus 1pt}%
+		\@starttoc{\@nameuse{ext@#1}}%
+		\endgroup}}
+\makeatother
+
+\let\Chapter\chapter
+\def\chapter{\addtocontents{locl}{\protect\addvspace{10pt}}\Chapter}
+
+%--------------------------------------------------------------------------------------
+% Table of contents and the main text
+%--------------------------------------------------------------------------------------
+\begin{document}
+
+%
+% Címoldal
+\onehalfspacing
+\include{titlepage}
+
+\clearpage
+\singlespacing
+
+\section*{A feladat leírása}
+
+
+\end{document}
