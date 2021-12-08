@@ -4,5 +4,6 @@
 *.log
 *.gz
 *.thm
+*.toc
 
 /_minted-dokumentacio

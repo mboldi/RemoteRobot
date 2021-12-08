@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,oneside]{report}
+\documentclass[11pt,a4paper,oneside]{article}
 
 %%%%%
 % Márta Boldizsár
@@ -100,7 +100,7 @@
 listname={Kódrészletek jegyzéke},
 name=kódrészlet,
 placement=hbt,
-within=chapter]{codelisting}
+within=section]{codelisting}
 
 \setminted{bgcolor=light-gray,frame=lines,breaklines,fontsize=\footnotesize,tabsize=3}
 
@@ -196,11 +196,16 @@ within=chapter]{codelisting}
 % Címoldal
 \onehalfspacing
 \include{titlepage}
+\clearpage
+\singlespacing
+
+\tableofcontents
 
 \clearpage
 \singlespacing
 
-\section*{A feladat leírása}
+\section{A feladat leírása}
+
 
 
 \end{document}
