@@ -21,6 +21,17 @@ public class RecieveStream : MonoBehaviour
                                "a=rtpmap:96 H264/90000\n" +
                                "a=fmtp:96 packetization-mode=1; sprop-parameter-sets=Z01AKOygUBf8uAtQEBAUAAADAAQACvyAPGDGWA==,aO+G8g==; profile-level-id=4D4028\n";
 
+    private const string sdp_screen = "sdp://v=0\n" +
+                                      "o=- 0 0 IN IP4 127.0.0.1\n" +
+                                      "s=No Name\n" +
+                                      "c=IN IP4 192.168.57.131\n" +
+                                      "t=0 0\n" +
+                                      "a=tool:libavformat 58.45.100\n" +
+                                      "m=video 5004 RTP/AVP 96\n" +
+                                      "b=AS:200\n" +
+                                      "a=rtpmap:96 MP4V-ES/90000\n" +
+                                      "a=fmtp:96 profile-level-id=1";
+
     private void Awake()
     {
         Core.Initialize(Application.dataPath);
@@ -45,7 +56,7 @@ public class RecieveStream : MonoBehaviour
         {
             if (_mediaPlayer.Media == null)
             {
-                _mediaPlayer.Media = new Media(_libVlc, sdp, FromType.FromLocation);
+                _mediaPlayer.Media = new Media(_libVlc, sdp_screen, FromType.FromLocation);
             }
 
             _mediaPlayer.Play();
