@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.IO;
 using LibVLCSharp;
 
 /// this class serves as an example on how to configure playback in Unity with VLC for Unity using LibVLCSharp.
