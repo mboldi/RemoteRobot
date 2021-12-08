@@ -105,6 +105,7 @@ display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path
 
 rospy.loginfo(armGroup.get_current_pose().pose)
 
+go_home(armGroup)
 
 sub_handle_py = rospy.Subscriber(moveRobotQueue, String, moveWithVectorCallback, queue_size=10)
 rospy.spin()

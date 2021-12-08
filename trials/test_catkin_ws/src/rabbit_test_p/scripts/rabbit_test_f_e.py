@@ -19,7 +19,7 @@ def main():
     def callback(ch, method, properties, body):
         print(" [x] %r" % body)
 
-    channel.basic_consume(queue='hello', on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(queue='move-robot', on_message_callback=callback, auto_ack=True)
 
     channel.start_consuming()
 

@@ -9,6 +9,7 @@ Futószalagon érkező termékek félautomata selejtdetekciója robotkar és VR 
 - OpenCV
 - Unity
 - RTP
+- ffmpeg
 - HTC Vive
 - RabbitMQ
 
@@ -33,13 +34,31 @@ python -m pip install pika --upgrade
 
 ## Futtatás
 
-`
-roslaunch ur_gazebo ur5.launch
-`
+Szimulátor és MoveIt config indítása
 
 `
+roslaunch ur_gazebo ur5.launch
 roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
 `
+
+RabbitMQ -> ROS üzenetfordító indítása
+
+`
+rosrun rabbit_communicator_p rabbit_to_ros_f_e.py
+`
+
+ROS-on belül a robot mozgatásáért felelős modul indítása
+
+`
+rosrun move_robot_p robot_mover_f_e.py
+`
+
+RTP stream indítása
+
+`
+ffmpeg -video_size 1280x720 -framerate 30 -f x11grab -i :0.0+70,30 -f rtp -sdp_file source.sdp "rtp://192.168.57.1:5004"
+`
+
 
 RTP teszt
 
