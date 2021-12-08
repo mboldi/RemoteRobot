@@ -1,1 +1,10 @@
 /docs/~$ladasi_naplo.docx
+.idea
+trials/RTPTest/Temp/
+trials/RTPTest/Logs/
+trials/RTPTest/obj/
+trials/RTPTest/Library/StateCache/
+trials/RTPTest/Library/ShaderCache
+trials/RTPTest/Library/ScriptAssemblies/
+trials/RTPTest/Library/PackageCache/
+trials/RTPTest/Library/Artifacts
