@@ -187,13 +187,10 @@ within=section]{codelisting}
 \let\Chapter\chapter
 \def\chapter{\addtocontents{locl}{\protect\addvspace{10pt}}\Chapter}
 
-%--------------------------------------------------------------------------------------
-% Table of contents and the main text
-%--------------------------------------------------------------------------------------
 \begin{document}
+\pagenumbering{roman}
 
-%
-% Címoldal
+
 \onehalfspacing
 \include{titlepage}
 \clearpage
@@ -203,8 +200,120 @@ within=section]{codelisting}
 
 \clearpage
 \singlespacing
+\pagenumbering{arabic}
 
 \section{A feladat leírása}
+
+Az 5. generációs mobilhálózatok elhozták az alacsony kommunikációs késleltetés korát. Az egyik fontos alkalmazási területe ennek a különböző kiterjesztett valóság alkalmazásokon keresztül tálalt valósidejű információkra építő ipar, szórakoztató vagy egyéb információs alkalmazások.\footnote{A téma leírásából}
+
+Rendkívül sok lehetőget tartogat magában egy olyan projekt, amely 5G-re és valamilyen kiterjesztett- vagy virtuális valóság technológiát használ. Látszik, hogy a jövőnek fontos része lesz ez a technológia, így hasznos, ha ismereteket szerzünk róla, ezért szerettem volna ezzel foglalkozni.
+
+A feladatom egy olyan szoftverrendszer elkészítése lett, melynek segítségével távolról, 5G hálózaton keresztül lehet vezérelni egy robotkart VR környezetből, miközben kameraképen látja is a felhasználó, hogy mi történik a robot körül. Ez a rendszer számos konkrét felhasználásnak adhat alapot, többek között:
+\begin{itemize}
+  \item egy sűrűn berendezett gyáregységben lehetőséget nyújthat a robotkarok egyszerű konfigurálására, esetleg egyszerűbb hibák elhárítására anélkül, hogy közel kéne menjünk hozzájuk
+  \item ha egy eszköz meghibásodik, akkor akár az azt telepítő cég mérnöke távolról, a gyár területén kívülről is tudja vizsgálni
+  \item egy robotkar beállítása után lehetőséget adhat a robotkarral együtt végzett munka egyszerű kivitelezésére is, például félautomata selejtdetekció során a robotkar csak felemeli az adott vizsgálni kívánt terméket, majd a kezelő utasítására vagy tovább engedi a gyártási folyamaton, vagy selejtként kiszelektálja
+\end{itemize}
+
+Egy ilyen rendszer esetében rendkívül fontos, hogy minimális késleltetéssel rendelkezzen, hiszen nehéz úgy precízen poziciálni egy robotkart, ha másodpercek elteltével látjuk csak a mozgatási utasításunk eredményét. Erre kitűnő lehetőséget adnak az 5G hálózatok, ha megfelelő technológiákat használunk felette adatküldésre.
+
+\newpage
+
+\section{A használni kívánt technológiák vizsgálata}
+
+Mint manapság bármilyen szoftverprojekt esetén, a szóban forgó témakörben is rengeteg lehetőség közül választhat egy architekt, illetve fejlesztő, hogy milyen technológiákat, keretrendszereket szeretne használni projektje során. Igyekeztem minél több lehetőséget vizsgálni, kipróbálni, és kiválasztani a számomra leginkább megfelelőt.
+
+\subsection{Robotkar vezérlés}
+
+A robotkar vezérléséhez a legkézenfekvőbb keretrendszer a ROS, vagyis a Robot Operating System\footnote{https://www.ros.org/} volt. A ROS egy nyílt forráskódú szoftvercsomag, amely hasznos fejlesztői eszközökkel, algoritmusokkal és driverekkel rendelkezik bármilyen robotokkal kapcsolatos projekt számára. A beépített moduljain kívül rendkívül sok kiegészítőt és csomagot lehet telepíteni hozzá. Tartalmaz minden olyan alapvető funkcionalitást, amely szinte minden robotvezérléshez szükséges, így nem kell mindenkinek ezeket megírni, illetve mivel sokan fejlesztik gyorsabb, hatékonyabb is lesz. Több, mint 10 éves múltja során hatalmasra nőtte magát a projekt, számos kutatási és oktatási projektben is jelen van.
+
+A ROS-nak több verziója is van, én a ROS 1 kinetic disztribúcióját használtam, mert azzal kompatibilis a konfigurációs csomag, mely szükséges volt az általam használt robotkarhoz. A ROS-ra épülve a MoveIt!\footnote{https://moveit.ros.org/} keretrendszert is használtam, mely egy absztrakciós szintet képezve lehetővé teszi, hogy a megfelelő konfiguráció és driver használata esetén ugyanazon vezérlő logika segítségével bármilyen fizikai kar vezérelhető legyen. Ezen kívül számos hasznos fukciót kínál még, amik könnyebbé teszik a fejlesztést, például a robotkar mozgásának tervezését, ütközésdetekciót és még sok mást.
+
+A fejlesztéshez rendelkezésemre állt a tanszéken egy Universal Robots UR5e típusú robotkar, alapvetően erre fejlesztettem a rendszert. A MoveIt miatt viszont tulajdonképpen bármikor ki lehetne cserélni az eszközt.
+
+\insertfig{ur5e}{A tanszéken is megtalálható UR5e robotkar}{6cm}{h!}
+
+A Moveit másik előnye, hogy lehetőséget ad arra, hogy egy szimulátorban működő robotkarral is ugyanúgy képes működni, mintha egy valódi eszköz lenne hozzákapcsolva. Annyit kell csak tenni, hogy a szimulátorral együttműködő drivert kell elindítani a fizikai karral kommunikáló helyett.
+
+\insertfig{ur5e_sim}{Robotkar a szimulátorban}{6cm}{h!}
+
+A robotkar megjelenítéséhez a Gazebo\footnote{http://gazebosim.org/} nevű szimulátort választottam, ebben lehetőség van a robot környezetének virtuálos megépítésére is, illetve ugyanúgy lehet vezérelni benne a robotkart, mintha fizikai valójában lenne jelen. A vezérlés teszteléséhez az RVIZ\footnote{http://wiki.ros.org/rviz} használható, mely szoftverben láthatjuk akár azt amit a robot lát, illetve vizualizálhatjuk a robotnak szánt mozgások végrehajtását.
+
+A ROS programozására lehetőség van Python és C++ nyelven is. Én a Python mellett döntöttem, mert a későbbiekben szeretném gépi látással is bővíteni a projektet, amelyre alkalmasabb ez a nyelv.
+
+\subsection{Valós idejű vezérlés IP alapon}
+
+Fontos része a rendszernek az irányítási parancsok, illetve metaadatok szinte valós idejű átvitele is. Ennek érdekében vizsgáltam több adatátviteli lehetőséget is. A három talán legelterjedtebb eszköz, melyeket találtam erre a célra az Apache Kafka, Apache Pulsar, illetve a RabbitMQ.
+
+A Kafka\footnote{https://kafka.apache.org/} egy nyílt forráskódú elosztott esemény közvetítő platform, az Apache alapítvány 5 leginkább futó projektjeinek egyike. Beépített adatfolyam-feldolgozással rendelkezik, számos szolgáltatáshoz tud kapcsolódni és sok programozási nyelven dolgozhatunk fel segítségével eseményeket. Nagy átviteli kapacitással rendelkezik, akár 2 ms-os késleltetést is lehetséges elérni vele. Több ezer cég használja, ami bizonyítja megbízhatóságát.
+
+A Pulsar\footnote{https://pulsar.apache.org/} egy szintén nyílt forráskódú, felhő-alapú elosztott üzenetküldő szolgáltatás, melyet kezdetben a Yahoo!-nál fejlesztettek ki, jelenleg ez is egy rendkívül fontos Apache projekt. A platform könnyen skálázható, számos programozási nyelvhez rendelkezik API-val és akár 5 ms-os késleltetés is lehetséges vele.
+
+A RabbitMQ\footnote{https://www.rabbitmq.com/} az egyik legnépszerűbb nyílt forráskódú üzenetküldő bróker. Kis méretű, könnyen telepíthető akár felhőbe is. Több üzenetküldési protokollt is támogat, alapvetően AMQP-re épül. Üzenetsorok segítségével aszinkron üzenetküldést tesz lehetővé, webes felületén könnyen lehet monitorozni a rendszer forgalmát. Hasonlóan a fentebb ismertetett eszközökhöz, itt is lehetőség van számos kiegészítő telepítésére, melyek segítségével képes támogatni Continuous Integration mechanizmust, illetve integrálható más enterprise rendszerekkel.
+
+\begin{table}
+  \caption{Üzenetküldő szolgáltatások összehasonlítása}
+  \label{table:compare_brokers}
+  \begin{tabular}{l|c|c|c}
+    & Kafka & Pulsar & RabbitMQ\\
+    \hline
+    \hline
+    Maximális adatátvitel & 605 MB/s & 305 MB/s & 38 MB/s \\
+    \hline
+    Késleltetés & 5 ms & 25 ms & 1 ms\\
+    & (200 MB/s terhelés) & (200 MB/s terhelés) & (30 MB/s terhelés)
+  \end{tabular}
+  A RabbitMQ átviteli sebessége 30 MB/s terhelés felett jelentősen csökkenni kezd.
+\end{table}
+
+Mint az \aref{table:compare_brokers}. táblázatban is látszik, a Kafka, illetve a Pulsar egy teszt során jelentősen nagyobb adatátvitelre képes, mint a RabbitMQ. Nekem azonban mivel nem tervezek nagy mennyiségű adatot átvinni, fontosabb az üzenet késleltetése, ami a RabbitMQ esetén a legkevesebb. A 4. generációs mobilhálózatok 200ms-os késleltetésével szemben az 5G-s hálózatokon akár 1 ms-ig is csökkenthető a látencia. Ennek kihasználására a tesztek alapján a RabbitMQ a legalkalmasabb.
+
+A felsorolt technológiák közül a RabbitMQ-val találkoztam, azt korábban használtam már. Előfordulhat, hogy emiatti elfogultságom miatt, de valószínűleg a kutatásom során talált tényekre alapozva amellett döntöttem az alkalmazás üzenetküldéseinek kezelésére. További előnye a RabbitMQ brókernek, hogy futtatható Docker konténerként, ami nagyban megkönnyíti a telepítést.
+
+\subsection{VR/AR megjelenítés}
+
+A téma elején szeretném ismertetni, hogy eddigi életem során a legkomolyabb VR ,,élményt" egy Google Cardboard\footnote{https://arvr.google.com/cardboard/} jellegű VR szemüvegen éltem át, így sok tapasztalatom nincs ilyen berendezésekkel. A komolyabb VR szemüveg kipróbálásán kívül értelemszerűen nem is fejlesztettem még ilyen eszközre. Szerettem volna viszont megismerkedni velük, ezért is kezdtem bele ebbe a projektbe.
+
+Ebben a témakörben az első, talán legfontosabb döntés, melyet meg kellett hozzak, hogy VR, vagy AR megjelenítést szeretnék. Mivel alapvetően távvezérlést szeretnék megvalósítani, ezért nincs feltétlen értelme a felhasználót körülvevő valóságot látni, így virtuális valóság mellett döntöttem a kiterjesztett valósággal szemben.
+
+VR megjelenítésre több szemüveg közül lehet választani, azonban tervezési szempontból igazából mindegy, hogy melyiket szeretnénk a későbbiekben használni, hiszen a legtöbb fejlesztői környezet képes bármelyikre előállítani alkalmazást. Eltérés lehet a VR megjelenítőkhöz tartozó kézi irányítószervek között, igyekeztem azokat is megvizsgálni, melyik mire alkalmas. Végül én HTC Vive-ra terveztem megvalósítani a szoftvert, viszont végül a szemüvegen való kipróbálásig nem jutottam el a projektben.
+
+Ezen alapvető kérdések eldöntése után már csak azt kellett eldöntsem, hogy milyen fejlesztői környezetben szeretném elkészíteni a VR-képes alkalmazást. Talán a két legnépszerűbb piaci szereplő ilyen célokra a Unity, illetve az Unreal Engine. A kettő közül a Unity a jobban elterjedt környezet VR fejlesztésekben. Alapjában véve egy játékmotor, viszont nem csak szórakoztató alkalmazásokat lehet készíteni benne. Hatalmas közösség van mögötte, rengeteg segítő dokumentum és könnyen letölthető asset áll rendelkezésre. A Unity talán legnagyobb ellenfele az Unreal Engine, amely szintén egy játékmotor, VR képességekkel. Az ő esetében is rendelkezésre áll számos letölthető erőforrás, a megjelenítése pedig valósághűbb tud lenni. Ez a keretrendszer fiatalabb, modernebb, mint a Unity, jobb teljesítményre képes.
+
+Mivel egyik fejlesztői környezetet sem használtam még korábban, a tanulási görbéjük kutatásom szerint nagyjából azonos, viszont a Unity mögött nagyobb támogatottság áll VR fejlesztés terén, ezért azt választottam.
+
+\subsection{Videójel továbbítása a robotkartól a vezérlő személyig}
+
+Egy igen nagy feladat volt számomra a videó átviteli technológia kiválasztása a ROS-t futtató gép és a vezérlő kliens között. Ennek az esetében is rendkívül fontos, hogy minél gyorsabban jusson el a kép a felhasználó szeme elé.
+
+Első ötletem egy RTMP stream volt, hiszen ezzel már találkoztam, igen elterjedt a videómegosztó platformokra történő streameléshez. Arra azonban nem gondoltam hirtelen, hogy ott nem fontos a késleltetés minimalizálása. Ez is lett a fő probléma ezzel az átviteli móddal, hiszen 10 másodperces késleltetés alá szinte lehetetlen levinni a közvetített videót. Emiatt ez teljesen alkalmatlan erre a felhasználásra, így más technológiák után kezdtem kutatni.
+
+Eleinte a lehetséges átviteli technológiák közül a WebRTC-t, vagyis Web Real Time Communication-t választottam ki, mert azt találtam róla, hogy amellett, hogy szöveges üzeneteket lehet vele küldeni, rendkívül egyszerűen működik vele a videóátvitel is, nevéből is adódóan szinte valós időben. Azonban mivel Unity-ben szerettem volna működésre bírni, sajnos nem volt vele szerencsém a tesztelés során. Webes alapon sikerült megjelenítenem videóstreamet viszonylag gyorsan, viszont sajnos Unity-ne belül többszöri próbálkozás után sem épült fel a kapcsolat a videót streamelő fél és a Unity kliens között.
+
+A viszonylag sok nem működő teszt közben felmerült az ötlet bennem, hogy akár NDI-on keresztül is lehetne videót átjátszani. Az NDI egy broadcast iparban feltörekvő IP alapú videótovábbító szabvány, mely produkciós környezetbe tervezettsége miatt kitűnő minőségű átvitelre képes. Arra a döntésre jutottam viszont, hogy az általa képviselt minőség miatti nagyjából 100-150 MB/s-os adatátvitele felesleges ebben az alkalmazásban. Ezen kívül nem tudom, hogy publikus hálózaton keresztül hogy működne, így elvetettem ezt az ötletet.
+
+Az NDI megfontolása utáni további sikertelen RTC tesztek után jutottam el az RTP-hez. FFmpeg\footnote{http://www.ffmpeg.org/} segítségével könnyen tudtam készíteni egy teszt streamet egy videó segítségével, melyet a generált \textit{SDP} fájl minimális módosítása után le is tudtam játszani VLC media playerrel. Ez után már könnyen megvalósítható volt, hogy Unity-ben is megjelenjen a stream, hiszen létezik könyvtára és azt tudtam alkalmazni.
+
+\subsection{A rendszer tervezett felépítése}
+
+A techológiák kiválasztása után a következő felépítés alakult ki a terveimben:
+
+\insertfig{felepites}{A rendszer tervezett felépítése}{7.5cm}{h!}
+
+Mint az látható \afigref{felepites} ábrán, a felhasználói kliens a RabbitMQ brókeren keresztül kommunikál IP alapon a ROS-on belül található communicator ROS node-al. Ez továbbítja a beérkező üzeneteket a robotkar mozgatásáért felelő modulnak, illetve helyzetjelentést küld a kar állapotáról a kliensnek.
+
+Ettől függetlenül történik a kamerakép streamelése a kliensnek IP alapon.
+
+\newpage
+\section{Megvalósítás}
+
+ROS ubuntu alatt, meg ilyenek
+
+rabbit dockerben
+
+\section{További tervek}
+
+realebb time
 
 
 
