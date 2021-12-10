@@ -215,6 +215,8 @@ A feladatom egy olyan szoftverrendszer elkészítése lett, melynek segítségé
   \item egy robotkar beállítása után lehetőséget adhat a robotkarral együtt végzett munka egyszerű kivitelezésére is, például félautomata selejtdetekció során a robotkar csak felemeli az adott vizsgálni kívánt terméket, majd a kezelő utasítására vagy tovább engedi a gyártási folyamaton, vagy selejtként kiszelektálja
 \end{itemize}
 
+A felhasználói felület esetében két használati mód, és ezzel együtt felület is van. Az egyik a konfigurációt végző személynek hasznos, itt be tudja állítani a robotkar általános pozícióit, esetleges határait, műveleteit. A másik mód mindennapi használatra alkalmas, ebben képes a kezelő felügyelni és utasítani a robotot működés közben.
+
 Egy ilyen rendszer esetében rendkívül fontos, hogy minimális késleltetéssel rendelkezzen, hiszen nehéz úgy precízen poziciálni egy robotkart, ha másodpercek elteltével látjuk csak a mozgatási utasításunk eredményét. Erre kitűnő lehetőséget adnak az 5G hálózatok, ha megfelelő technológiákat használunk felette adatküldésre.
 
 \newpage
@@ -238,6 +240,8 @@ A Moveit másik előnye, hogy lehetőséget ad arra, hogy egy szimulátorban mű
 \insertfig{ur5e_sim}{Robotkar a szimulátorban}{6cm}{h!}
 
 A robotkar megjelenítéséhez a Gazebo\footnote{http://gazebosim.org/} nevű szimulátort választottam, ebben lehetőség van a robot környezetének virtuálos megépítésére is, illetve ugyanúgy lehet vezérelni benne a robotkart, mintha fizikai valójában lenne jelen. A vezérlés teszteléséhez az RVIZ\footnote{http://wiki.ros.org/rviz} használható, mely szoftverben láthatjuk akár azt amit a robot lát, illetve vizualizálhatjuk a robotnak szánt mozgások végrehajtását.
+
+\insertfig{rviz}{Az Rviz felülete}{8cm}{h!}
 
 A ROS programozására lehetőség van Python és C++ nyelven is. Én a Python mellett döntöttem, mert a későbbiekben szeretném gépi látással is bővíteni a projektet, amelyre alkalmasabb ez a nyelv.
 
@@ -298,7 +302,7 @@ Az NDI megfontolása utáni további sikertelen RTC tesztek után jutottam el az
 
 A techológiák kiválasztása után a következő felépítés alakult ki a terveimben:
 
-\insertfig{felepites}{A rendszer tervezett felépítése}{7.5cm}{h!}
+\insertfig{felepites}{A rendszer tervezett felépítése}{12cm}{h!}
 
 Mint az látható \afigref{felepites} ábrán, a felhasználói kliens a RabbitMQ brókeren keresztül kommunikál IP alapon a ROS-on belül található communicator ROS node-al. Ez továbbítja a beérkező üzeneteket a robotkar mozgatásáért felelő modulnak, illetve helyzetjelentést küld a kar állapotáról a kliensnek.
 
@@ -307,10 +311,20 @@ Ettől függetlenül történik a kamerakép streamelése a kliensnek IP alapon.
 \newpage
 \section{Megvalósítás}
 
-ROS ubuntu alatt, meg ilyenek
+\subsection{ROS}
+
+Mivel alapvetően Windows operációs rendszert használok, eredetileg megpróbáltam erre telepíteni a ROS környezetet, viszont miután felelepítettem sajnos nem működött rendesen. Mivel az Ubuntu egy ajánlott operációs rendszer, ezért készítettem egy virtuális gépet, melyre Ubuntut, majd a ROS-t telepítve szerencsére működött a rendszer.
+
+A ROS alap csomagok telepítése után elkészítettem a projekt alapját adó Catkin workspacet a megfelelő mappastruktúra kialakításával, majd a \textit{catkin\_make} parancs futtatásával. Ennek a könyvtárrendszernek a \textit{src} mappájába kell írjuk a forráskódunk, melyet szeretnénk futtatni ROS-on belül. Ebbe a mappába helyeztem el a robotkarhoz tartozó MoveIt konfigurációt is, melyet futtatni kell, hogy a vezérlése eljusson hozzá.
+
+A ROS-on belül két fő node-ot valósítottam meg Python-ban. Az egyik felelős az IP alapú kommunikáció feldolgozásáért és átfordításáért a ROS-on belülre. Tőle kapja meg a mozgatási információkat a másik fő modul, a robotkar mozgató komponens. Ő végzi a robottal való kommunikációt, utasítja, hogy hova mozogjon, és kiolvassa az állapotát is.
+
+\subsection{Kommunikáció}
+
 
 rabbit dockerben
 
+\newpage
 \section{További tervek}
 
 realebb time
