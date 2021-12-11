@@ -51,7 +51,7 @@
 % Main variables
 %--------------------------------------------------------------------------------------
 \newcommand{\vikszerzo}{Márta Boldizsár}
-\newcommand{\vikkonzulens}{Forstner Bertalan}
+\newcommand{\vikkonzulens}{Dr. Forstner Bertalan}
 \newcommand{\vikcim}{Alacsony hálózati késleltetésre épülő AR megoldások telefonra és okosszemüvegre}
 \newcommand{\viktanszek}{Automatizálási és Alkalmazott Informatikai Tanszék}
 \newcommand{\vikdoktipus}{MSc Önálló laboratórium 1.}
@@ -217,6 +217,8 @@ A feladatom egy olyan szoftverrendszer elkészítése lett, melynek segítségé
 
 A felhasználói felület esetében két használati mód, és ezzel együtt felület is van. Az egyik a konfigurációt végző személynek hasznos, itt be tudja állítani a robotkar általános pozícióit, esetleges határait, műveleteit. A másik mód mindennapi használatra alkalmas, ebben képes a kezelő felügyelni és utasítani a robotot működés közben.
 
+A konkrét felhasználás, amire a feladat megoldást kíván adni, az futószalagon érkező termékek félautomata selejtdetekviója. Az érkező termékeket a robot kamerán keresztül felismeri, felemeli, majd egy kamerába megmutatva egy kezelő eldöntheti, hogy a termék hibás, vagy megfelelő minőségű.
+
 Egy ilyen rendszer esetében rendkívül fontos, hogy minimális késleltetéssel rendelkezzen, hiszen nehéz úgy precízen poziciálni egy robotkart, ha másodpercek elteltével látjuk csak a mozgatási utasításunk eredményét. Erre kitűnő lehetőséget adnak az 5G hálózatok, ha megfelelő technológiákat használunk felette adatküldésre.
 
 \newpage
@@ -286,7 +288,7 @@ Ezen alapvető kérdések eldöntése után már csak azt kellett eldöntsem, ho
 
 Mivel egyik fejlesztői környezetet sem használtam még korábban, a tanulási görbéjük kutatásom szerint nagyjából azonos, viszont a Unity mögött nagyobb támogatottság áll VR fejlesztés terén, ezért azt választottam.
 
-\subsection{Videójel továbbítása a robotkartól a vezérlő személyig}
+\subsection{Videójel továbbítása a robotkartól a vezérlő kliensbe}
 
 Egy igen nagy feladat volt számomra a videó átviteli technológia kiválasztása a ROS-t futtató gép és a vezérlő kliens között. Ennek az esetében is rendkívül fontos, hogy minél gyorsabban jusson el a kép a felhasználó szeme elé.
 
@@ -317,17 +319,55 @@ Mivel alapvetően Windows operációs rendszert használok, eredetileg megprób�
 
 A ROS alap csomagok telepítése után elkészítettem a projekt alapját adó Catkin workspacet a megfelelő mappastruktúra kialakításával, majd a \textit{catkin\_make} parancs futtatásával. Ennek a könyvtárrendszernek a \textit{src} mappájába kell írjuk a forráskódunk, melyet szeretnénk futtatni ROS-on belül. Ebbe a mappába helyeztem el a robotkarhoz tartozó MoveIt konfigurációt is, melyet futtatni kell, hogy a vezérlése eljusson hozzá.
 
-A ROS-on belül két fő node-ot valósítottam meg Python-ban. Az egyik felelős az IP alapú kommunikáció feldolgozásáért és átfordításáért a ROS-on belülre. Tőle kapja meg a mozgatási információkat a másik fő modul, a robotkar mozgató komponens. Ő végzi a robottal való kommunikációt, utasítja, hogy hova mozogjon, és kiolvassa az állapotát is.
+A ROS-on belül két fő node-ot valósítottam meg Python-ban, mint az \afigref{felepites} ábrán is látszik. Az egyik felelős az IP alapú kommunikáció feldolgozásáért és átfordításáért a ROS-on belülre. Tőle kapja meg a mozgatási információkat a másik fő modul, a robotkar mozgató komponens. Ő végzi a robottal való kommunikációt, utasítja, hogy hova mozogjon, és kiolvassa az állapotát is. A jövőben szeretném még bővíteni a funkcionalitást, ami valószínűleg több modult fog igényelni.
+
+A feladat leírásában szerepel, hogy egy futószalagon érkező termékeket egy, a robotkar mellett elhelyezett kamerán keresztül lehet látni. Sajnos ilyen szintre nem jutott el a fejlesztés, viszont a kamerakép továbbítását mindenképpen szerettem volna valamilyen módon helyettesíteni. Erre a célra végül az ffmpeg segítségével egy képernyőképet továbbítottam a felhasználói kliens felé, mint az látható \afigref{unity_vezerles_robottal} ábrán.
+
+\subsection{Felhasználói kliens}
+
+Mint azt a tervek között is írtam, a kliensoldali alkalmazást, mely VR szemüvegen, annak kézi vezérlőivel kiegészítve kerül használatra, Unity környezetben készítettem. Korábban még nem használtam ezt a feljesztői eszközt, így eleinte nehézséget okoztak az alapvető feladatok is. Számos tesztalkalmazást készítettem különböző használni kívánt technológia kipróbálására, ezeknek a sikeres működése után kezdtem el elkészíteni a tényleges szoftvert.
+
+Az alkalmazás design-ja jelenleg igen kezdetleges, mindenképpen szeretnék rajta még változtatni, illetve javában szükséges bővíteni is. Helyet kapott egy virtuális képernyő, melyen megjelenik a ROS felől érkező videójel. Emellett kaptak helyet az egyelőre gomb formájában megvalósult vezérlőszervek. Jelenleg csupán alapvető mozgatási parancsokat tudunk küldeni a robotkarnak, ez is bővülni fog a jövőben, viszont a tényleges vezérlést nem ilyen féle felülettel szeretném elkészíteni, hanem a VR szemüveghez tartozó kézi vezérlőkkel. Az ezek adta lehetőségeket kihasználva minél kevesebb hagyományos interakciós eszközt szeretnék használni, mint például gombokat.
+
+\insertfig{unity_vezerles_robottal}{A felhasználói kliens felülete IP alapon fogadott videóképpel}{14cm}{h!}
+
+\Afigref{unity_vezerles_robottal} ábrán látható az elkészült kliens felülete. Megvalósításra vár még a tervekben említett több futási mód, illetve szeretném a robot virtuális megjelenítését is, esetleg a környezetével együtt, így is megkönnyítve a kezelő munkáját, lehetővé téve neki, hogy mindig lássa a robotkar aktuális állapotát.
+
+A videó fogadását a VLClib Unity alá készült verziója végzi, ami egy viszonylag nagyméretű vízjelet helyez el a képen. Ezt szeretném megoldani majd, hogy ne látszódjon, akár más fogadó könyvtár használatával.
 
 \subsection{Kommunikáció}
 
+A kliens és a ROS közti kommunikáció RabbitMQ-n keresztül zajlik. Ehhez szükséges egy központi irányító szervert futtatni, ezt én Docker-ben tettem meg, hiszen rendkívül egyszerűen kezelhető így. Mivel szerencsére C\# és Python alá is rendelkezik könyvtárral, mellyel könnyen megoldható a kommunikáció, nem volt vele nagy gondom. \Afigref{rabbit_queue} ábrán is látható, hogy rendelkezik egy praktikus webes felülettel is, melyen nyomon lehet követni az üzenetsoraink állapotát.
 
-rabbit dockerben
+\insertfig{rabbit_queue}{A RabbitMQ webes felülete}{14cm}{h!}
 
-\newpage
+A terveimet úgy készítettem el, hogy a különböző célú üzenetek más-más üzenetsorokban kerülnek küldésre. Ezek a sorok többek között:
+\begin{itemize}
+  \item \emph{robot-status}: itt küldi a ROS felőli oldala a rendszernek a robot állapotát kis időközönként
+  \item \emph{move-robot}: itt megadhatunk egy (x, y, z) alakú vektort, amivel a robot fejét szeretnénk elmozgatni
+  \item \emph{set-joints}: ebben a sorban lehet olyan üzenetet küldeni a ROS fele, amelyben a robot csuklóinak egy kívánt állapota szerepel
+\end{itemize}
+
+Az alkalmazás selejtdetekcióra való használatához további üzenetcsatornák lesznek szükségesek, ezeknek a tervezését még nem véglegesítettem.
+
+A ROS-on belül a saját topic alapú kommunikációját használtam. Többek között kerülnek átfordításra az IP alapon kívülről érkező csomagok is, egyéb szükséges kommunikáció is ezen keresztül zajlik a ROS node-ok között.
+
 \section{További tervek}
 
-realebb time
+Jelenleg az alkalmazás, mint azt már említettem is, igen kezdetleges állapotban van. A féléves munkám nagyobb részét a technológiákkal való ismerkedés, a lehetőségek feltárása tette ki, a tényleges feljesztésre nem maradt annyi időm, mint szerettem volna. Mindenképpen szeretném jobban kidolgozni a rendszert, elérni egy olyan állapotba, ami ténylegesen használható.
+
+Jelenlegi konkrét fejlesztési terveim nagy vonalakban a következők:
+\begin{itemize}
+  \item A videóátvitel optimalizálása, gyorsítása. Jelenleg nagyjából egy másodperc az átvitel késleltetése, ami nehezen használhatóvá tenné a rendszert, ezt mindenképpen szeretném csökkenteni.
+  \item Kliensalkalmazás kibővítése rengeteg tervezett funkcióval, többek között:
+  \begin{itemize}
+    \item Konfigurációs és kezelői mód különválasztása
+    \item Robot megjelenítése
+    \item VR rendszerhez tartozó kézivezérlők alkalmazása irányításra
+    \item ROS oldal elérési címének és egyéb változók beállíthatósága felhasználói felületről
+  \end{itemize}
+  \item Szimulációs környezetből áttérni a ,,valóságba". Szimulátorról készült képernyőkép streamelése helyett tényleges kamerakép közvetítése a valódi robotkarról, kliensalkalmazás VR szemüvegen való futtatása.
+\end{itemize}
 
 
 
