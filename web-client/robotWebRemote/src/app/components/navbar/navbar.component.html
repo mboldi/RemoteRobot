@@ -1,0 +1,14 @@
+<mat-toolbar>
+  <button mat-icon-button aria-label="Kezdőoldal" [routerLink]="['/']">
+    <mat-icon>precision_manufacturing</mat-icon>
+  </button>
+  <span style="font-size: 1.2em;">Robotkar vezérlő</span>
+  <button mat-icon-button class="navbar-element" aria-label="Egyszerű vezérlés" [routerLink]="['/basiccontrol']">
+    <mat-icon>control_camera</mat-icon>
+    <mat-label>Egyszerű vezérlés</mat-label>
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button aria-label="Beállítások" [routerLink]="['/settings']">
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>
