@@ -16,6 +16,7 @@ import {HomeComponent} from './pages/home/home.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatInputModule,
     MatFormFieldModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

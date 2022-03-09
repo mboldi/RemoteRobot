@@ -11,4 +11,11 @@ export class BasicControlComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  moveArm(moveDir: string) {
+    console.log(moveDir)
+  }
+
+  stopArm() {
+    console.log('stop')
+  }
 }
