@@ -9,3 +9,5 @@ trials/RTPTest/Library/ScriptAssemblies/
 trials/RTPTest/Library/PackageCache/
 trials/RTPTest/Library/Artifacts
 /docs/~$ladatleiras.docx
+web-client/node_modules/
+web-client/robotWebRemote/.vscode/
