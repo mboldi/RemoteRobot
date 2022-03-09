@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SettingsService} from "../../services/settings.service";
 
 @Component({
@@ -12,9 +12,12 @@ export class SettingsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private settingsService: SettingsService) {
+
     this.settingsForm = this.fb.group({
-      serverIp: ['', Validators.required]
-    })
+      serverIp: [this.settingsService.getRabbitUrl(), Validators.required]
+    });
+
+
   }
 
   ngOnInit(): void {
@@ -22,5 +25,6 @@ export class SettingsComponent implements OnInit {
 
   save() {
     this.settingsService.setRabbitUrl(this.settingsForm.value.serverIp)
+    console.log('ip mentve')
   }
 }
