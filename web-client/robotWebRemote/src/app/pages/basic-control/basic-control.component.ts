@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {RabbitmqService} from "../../services/rabbitmq.service";
 
 @Component({
   templateUrl: './basic-control.component.html',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BasicControlComponent implements OnInit {
 
-  constructor() { }
+  constructor(private controlService: RabbitmqService) { }
 
   ngOnInit(): void {
   }
