@@ -18,6 +18,9 @@ import {MatCardModule} from "@angular/material/card";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatGridListModule} from "@angular/material/grid-list";
 
+import {RxStompService} from "./services/rx-stomp.service"
+import {rxStompServiceFactory} from "./services/rx-stomp-service-factory";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +43,12 @@ import {MatGridListModule} from "@angular/material/grid-list";
     ReactiveFormsModule,
     MatGridListModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
