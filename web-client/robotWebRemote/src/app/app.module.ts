@@ -15,7 +15,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {HomeComponent} from './pages/home/home.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatGridListModule} from "@angular/material/grid-list";
 
 import {RxStompService} from "./services/rx-stomp.service"
@@ -41,7 +41,8 @@ import {rxStompServiceFactory} from "./services/rx-stomp-service-factory";
     MatFormFieldModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatGridListModule
+    MatGridListModule,
+    FormsModule
   ],
   providers: [
     {

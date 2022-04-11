@@ -1,6 +1,13 @@
 <mat-card class="mt-4">
   <mat-card-header><h2>Egyszerű vezérlés</h2></mat-card-header>
   <mat-card-content>
+    <form [formGroup]="stepSizeForm">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Lépés mérete</mat-label>
+      <input matInput value="0.1" type="number" step="0.05" min="0.05" formControlName="stepSize">
+    </mat-form-field>
+    </form>
+
     <mat-grid-list style="width: 15em" cols="3" rowHeight="5em">
       <mat-grid-tile><button mat-icon-button (click)="moveArm('rotateLeft')"><mat-icon>undo</mat-icon></button></mat-grid-tile>
       <mat-grid-tile><button mat-icon-button (click)="moveArm('up')"><mat-icon>arrow_upwards</mat-icon></button></mat-grid-tile>
