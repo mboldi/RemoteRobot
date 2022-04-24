@@ -17,7 +17,7 @@ Futószalagon érkező termékek félautomata selejtdetekciója robotkar és VR 
 
 UR5 robotkar MoveIt konfigurációs repo-ja
 ```bash
-git clone https://github.com/fmauch/universal_robot.git src/universal_robot
+git clone https://github.com/fmauch/universal_robot.git catkin_ws/src/universal_robot
 ```
 
 RabbitMQ szerver és webes vezérlés indítása
