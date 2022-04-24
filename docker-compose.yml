@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  rabbit:
+    build: ./rabbitMQ/
+    ports:
+      - "5672:5672"
+      - "15674:15674"
+      - "8080:15672"
+  webcontrol:
+    build: ./web-client/robotWebRemote/
+    ports:
+      - "80:80"
