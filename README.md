@@ -27,7 +27,7 @@ git clone https://github.com/fmauch/universal_robot.git catkin_ws/src/universal_
 ```
 vagy inkább
 ```bash
-git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git catkin_ws/src/universal_robot_2
+git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git catkin_ws/src/universal_robot
 ```
 
 Hiányzó ROS package-k telepítése
@@ -53,14 +53,14 @@ pip2 install pika pyyaml enum rospkg
 
 Szimulátor és MoveIt config indítása
 
-`
+```bash
 roslaunch ur_gazebo ur5.launch
 roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch sim:=true limited:=true
-`
+```
 
 RViz
 ```bash
-roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch sim:=true
+roslaunch ur5_e_moveit_config moveit_rviz.launch config:=true
 ```
 
 RabbitMQ -> ROS üzenetfordító indítása
