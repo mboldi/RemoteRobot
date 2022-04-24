@@ -20,9 +20,9 @@ UR5 robotkar MoveIt konfigurációs repo-ja
 git clone https://github.com/fmauch/universal_robot.git src/universal_robot
 ```
 
-RabbitMQ szerver létrehozása és indítása Docker-en a kommunikációhoz
+RabbitMQ szerver és webes vezérlés indítása
 ```bash
-docker run -d --hostname remote-robot-rabbit --name remoteRobotRabbit -p 8080:15672 rabbitmq:3-management
+docker-compose up
 ```
 
 RabbitMQ kommunikációhoz szükséges Python csomag telepítése
