@@ -19,16 +19,22 @@ UR5 robotkar MoveIt konfigurációs repo-ja
 ```bash
 git clone https://github.com/fmauch/universal_robot.git catkin_ws/src/universal_robot
 ```
+vagy inkább
+```bash
+git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git catkin_ws/src/universal_robot_2
+```
 
 RabbitMQ szerver és webes vezérlés indítása
 ```bash
 docker-compose up
 ```
 
-RabbitMQ kommunikációhoz szükséges Python csomag telepítése
+Szükséges Python csomagok telepítése
 ```bash
-apt-get install python-pip
-python -m pip install pika --upgrade
+wget https://boostrap.pypa.io/pip/2.7/get-pip.py
+python2 get-pip.py
+
+pip2 install pika pyyaml enum rospkg
 ```
 
 
@@ -38,8 +44,13 @@ Szimulátor és MoveIt config indítása
 
 `
 roslaunch ur_gazebo ur5.launch
-roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch sim:=true limited:=true
 `
+
+RViz
+```bash
+roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch sim:=true
+```
 
 RabbitMQ -> ROS üzenetfordító indítása
 
