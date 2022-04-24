@@ -4,7 +4,7 @@ Futószalagon érkező termékek félautomata selejtdetekciója robotkar és VR 
 
 ## Használt technológiák:
 
-- ROS kinetic
+- ROS noetic
 - MoveIt
 - OpenCV
 - Unity
@@ -15,6 +15,12 @@ Futószalagon érkező termékek félautomata selejtdetekciója robotkar és VR 
 
 ## Telepítés
 
+ROS noetic telepítése:
+http://wiki.ros.org/noetic/Installation/Ubuntu
+
+MoveIt! telepítése ROS noetic-hez:
+https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html
+
 UR5 robotkar MoveIt konfigurációs repo-ja
 ```bash
 git clone https://github.com/fmauch/universal_robot.git catkin_ws/src/universal_robot
@@ -22,6 +28,11 @@ git clone https://github.com/fmauch/universal_robot.git catkin_ws/src/universal_
 vagy inkább
 ```bash
 git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git catkin_ws/src/universal_robot_2
+```
+
+Hiányzó ROS package-k telepítése
+```bash
+rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 ```
 
 RabbitMQ szerver és webes vezérlés indítása
