@@ -23,7 +23,11 @@ evalMovePubHandle = None
 evalResultPubHandle = None
 
 def makeQueueAndConsume(channel, queue, callback):
-    channel.queue_declare(queue=queue)
+    try:
+        channel.queue_declare(queue=queue, durable=True)
+    except:
+        print("Queue already exists: " + queue)
+
     channel.basic_consume(queue=queue, on_message_callback=callback, auto_ack=True)
 
 def makeQueues(channel):
@@ -67,6 +71,8 @@ def modeSetCallback(ch, method, properties, body):
         rospy.loginfo('Sent message: ' + modeChangeMsg.data)
 
 def moveRobotCallback(ch, method, properties, body):
+    body = body.decode("utf-8")
+
     print(" [moveRobot] %r" % body)
 
     global moveRobotPubHandle
@@ -77,7 +83,7 @@ def moveRobotCallback(ch, method, properties, body):
 
         moveRobotPubHandle.publish(moveRobotMsg)
 
-        rospy.loginfo('Sent message: ' + moveRobotMsg.data)
+        rospy.loginfo("Sent message: " + moveRobotMsg.data)
 
 def setJointsCallback(ch, method, properties, body):
     print(" [setJoints] %r" % body)
@@ -95,7 +101,7 @@ def evalResultCallback(ch, method, properties, body):
 
 rospy.init_node("rabbit_to_ros_n")
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
+connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
 channel = connection.channel()
 
 makeQueues(channel)

@@ -14,7 +14,7 @@ export class BasicControlComponent implements OnInit {
   constructor(private rxStompService: RxStompService) { }
 
   ngOnInit(): void {
-    this.rxStompService.watch('moveArm').subscribe(message => {
+    this.rxStompService.watch('robot-status').subscribe(message => {
       console.log('incoming messeage: ' + message.body)
     })
 
@@ -25,10 +25,14 @@ export class BasicControlComponent implements OnInit {
   }
 
   moveArm(moveDir: string) {
-    const moveVec = this.dirToVector(moveDir);
+    let moveBody = moveDir;
 
-    this.rxStompService.publish({destination: 'moveArm', body: moveVec});
-    console.log(moveVec);
+    if(moveDir !== 'home') {
+      moveBody = this.dirToVector(moveDir);
+    }
+
+    this.rxStompService.publish({destination: 'move-robot', body: moveBody});
+    console.log(moveBody);
   }
 
   stopArm() {

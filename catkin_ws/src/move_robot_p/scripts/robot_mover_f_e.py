@@ -74,19 +74,24 @@ def moveRobotWithVector(moveVector):
     armGroup.stop()
     armGroup.clear_pose_targets()
 
-def moveWithVectorCallback(rcvd_msg):
+def moveRobotCallback(rcvd_msg):
     global armGroup
     global robot_head_pos
 
-    rospy.loginfo("I heard %s", rcvd_msg.data)
+    data = rcvd_msg.data
 
-    moveVec = msgDataToVec3(rcvd_msg.data)
-    rospy.loginfo(moveVec)
+    rospy.loginfo("I heard %s", data)
 
-    moveRobotWithVector(moveVec)
+    if (data == "home"):
+        go_home(armGroup)
+    else:
+        moveVec = msgDataToVec3(data)
+        rospy.loginfo(moveVec)
 
-    rospy.loginfo(armGroup.get_current_pose().pose)
-    robot_head_pos = armGroup.get_current_pose().pose
+        moveRobotWithVector(moveVec)
+
+        rospy.loginfo(armGroup.get_current_pose().pose)
+        robot_head_pos = armGroup.get_current_pose().pose
 
 
 rospy.init_node("robot_mover_n")
@@ -107,5 +112,5 @@ rospy.loginfo(armGroup.get_current_pose().pose)
 
 go_home(armGroup)
 
-sub_handle_py = rospy.Subscriber(moveRobotQueue, String, moveWithVectorCallback, queue_size=10)
+sub_handle_py = rospy.Subscriber(moveRobotQueue, String, moveRobotCallback, queue_size=10)
 rospy.spin()
