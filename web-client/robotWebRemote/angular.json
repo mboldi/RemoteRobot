@@ -55,6 +55,11 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              },
               "outputHashing": "all"
             },
             "development": {
