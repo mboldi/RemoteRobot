@@ -42,10 +42,10 @@ docker-compose up
 
 Szükséges Python csomagok telepítése
 ```bash
-wget https://boostrap.pypa.io/pip/2.7/get-pip.py
-python2 get-pip.py
+sudo apt-get update || sudo apt-get upgrade
+sudo apt-get install python3 python3-pip
 
-pip2 install pika pyyaml enum rospkg
+pip3 install pika pyyaml rospkg
 ```
 
 
