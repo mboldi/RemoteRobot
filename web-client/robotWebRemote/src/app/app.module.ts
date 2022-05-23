@@ -20,6 +20,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 
 import {RxStompService} from "./services/rx-stomp.service"
 import {rxStompServiceFactory} from "./services/rx-stomp-service-factory";
+import { VideoReceiverComponent } from './components/video-receiver/video-receiver.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {rxStompServiceFactory} from "./services/rx-stomp-service-factory";
     SettingsComponent,
     NavbarComponent,
     HomeComponent,
+    VideoReceiverComponent,
   ],
   imports: [
     BrowserModule,
