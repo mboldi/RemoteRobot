@@ -101,7 +101,7 @@ def evalResultCallback(ch, method, properties, body):
 
 rospy.init_node("rabbit_to_ros_n")
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
+connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.2.101'))
 channel = connection.channel()
 
 makeQueues(channel)
