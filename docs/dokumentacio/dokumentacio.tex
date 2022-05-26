@@ -54,7 +54,7 @@
 \newcommand{\vikkonzulens}{Dr. Forstner Bertalan}
 \newcommand{\vikcim}{Alacsony hálózati késleltetésre épülő AR megoldások telefonra és okosszemüvegre}
 \newcommand{\viktanszek}{Automatizálási és Alkalmazott Informatikai Tanszék}
-\newcommand{\vikdoktipus}{MSc Önálló laboratórium 1.}
+\newcommand{\vikdoktipus}{MSc Önálló laboratórium 1-2.}
 \newcommand{\vikdepartmentr}{Márta Boldizsár}
 
 %--------------------------------------------------------------------------------------
@@ -231,21 +231,25 @@ Mint manapság bármilyen szoftverprojekt esetén, a szóban forgó témakörben
 
 A robotkar vezérléséhez a legkézenfekvőbb keretrendszer a ROS, vagyis a Robot Operating System\footnote{https://www.ros.org/} volt. A ROS egy nyílt forráskódú szoftvercsomag, amely hasznos fejlesztői eszközökkel, algoritmusokkal és driverekkel rendelkezik bármilyen robotokkal kapcsolatos projekt számára. A beépített moduljain kívül rendkívül sok kiegészítőt és csomagot lehet telepíteni hozzá. Tartalmaz minden olyan alapvető funkcionalitást, amely szinte minden robotvezérléshez szükséges, így nem kell mindenkinek ezeket megírni, illetve mivel sokan fejlesztik gyorsabb, hatékonyabb is lesz. Több, mint 10 éves múltja során hatalmasra nőtte magát a projekt, számos kutatási és oktatási projektben is jelen van.
 
-A ROS-nak több verziója is van, én a ROS 1 kinetic disztribúcióját használtam, mert azzal kompatibilis a konfigurációs csomag, mely szükséges volt az általam használt robotkarhoz. A ROS-ra épülve a MoveIt!\footnote{https://moveit.ros.org/} keretrendszert is használtam, mely egy absztrakciós szintet képezve lehetővé teszi, hogy a megfelelő konfiguráció és driver használata esetén ugyanazon vezérlő logika segítségével bármilyen fizikai kar vezérelhető legyen. Ezen kívül számos hasznos fukciót kínál még, amik könnyebbé teszik a fejlesztést, például a robotkar mozgásának tervezését, ütközésdetekciót és még sok mást.
-
-A fejlesztéshez rendelkezésemre állt a tanszéken egy Universal Robots UR5e típusú robotkar, alapvetően erre fejlesztettem a rendszert. A MoveIt miatt viszont tulajdonképpen bármikor ki lehetne cserélni az eszközt.
+A ROS-nak több verziója is van, én eleinte a ROS 1 Kinetic disztribúcióját használtam, mert azzal kompatibilis a konfigurációs csomag, mely szükséges volt az általam használt robotkarhoz. A ROS-ra épülve a MoveIt!\footnote{https://moveit.ros.org/} keretrendszert is használtam, mely egy absztrakciós szintet képezve lehetővé teszi, hogy a megfelelő konfiguráció és driver használata esetén ugyanazon vezérlő logika segítségével bármilyen fizikai kar vezérelhető legyen. Ezen kívül számos hasznos funkciót kínál még, amik könnyebbé teszik a fejlesztést, például a robotkar mozgásának tervezését, ütközésdetekciót és még sok mást.
 
 \insertfig{ur5e}{A tanszéken is megtalálható UR5e robotkar}{6cm}{h!}
+
+A projekt második félévének egyik első lépéseként átmigráltam a projektet ROS 1 Noetic verzióra, amivel a vezérlés hátterében futó operációs rendszert is ki kellett cserélni Ubuntu 20.04-re a korábbi Ubuntu 16-ról. A verzióváltás hátterében egyrészt az is állt, hogy a tanszéki robotkar mellett, annak vezérléséhez használt számítógépen mások által megtörtént ez a frissítés, de én is hasznosnak láttam. A továbbiakban részletezem még a hasznosságát, de talán az egyik legnagyobb különbség, hogy a Noetic verzió alatt már Python 3-at lehet használni, ami ideális, hiszen korábban a nyelv 2-es verziójához nem állt rendelkezésemre olyan csomag, ami hasznos lett volna.
+
+
+
+A fejlesztéshez rendelkezésemre állt a tanszéken egy Universal Robots UR5e típusú robotkar, alapvetően erre fejlesztettem a rendszert. A MoveIt miatt viszont tulajdonképpen bármikor ki lehetne cserélni az eszközt.
 
 A Moveit másik előnye, hogy lehetőséget ad arra, hogy egy szimulátorban működő robotkarral is ugyanúgy képes működni, mintha egy valódi eszköz lenne hozzákapcsolva. Annyit kell csak tenni, hogy a szimulátorral együttműködő drivert kell elindítani a fizikai karral kommunikáló helyett.
 
 \insertfig{ur5e_sim}{Robotkar a szimulátorban}{6cm}{h!}
 
-A robotkar megjelenítéséhez a Gazebo\footnote{http://gazebosim.org/} nevű szimulátort választottam, ebben lehetőség van a robot környezetének virtuálos megépítésére is, illetve ugyanúgy lehet vezérelni benne a robotkart, mintha fizikai valójában lenne jelen. A vezérlés teszteléséhez az RVIZ\footnote{http://wiki.ros.org/rviz} használható, mely szoftverben láthatjuk akár azt amit a robot lát, illetve vizualizálhatjuk a robotnak szánt mozgások végrehajtását.
+A robotkar megjelenítéséhez a Gazebo\footnote{http://gazebosim.org/} nevű szimulátort választottam, ebben lehetőség van a robot környezetének virtuális megépítésére is, illetve ugyanúgy lehet vezérelni benne a robotkart, mintha fizikai valójában lenne jelen. A vezérlés teszteléséhez az RVIZ\footnote{http://wiki.ros.org/rviz} használható, mely szoftverben láthatjuk akár azt amit a robot lát, illetve vizualizálhatjuk a robotnak szánt mozgások végrehajtását.
 
 \insertfig{rviz}{Az Rviz felülete}{8cm}{h!}
 
-A ROS programozására lehetőség van Python és C++ nyelven is. Én a Python mellett döntöttem, mert a későbbiekben szeretném gépi látással is bővíteni a projektet, amelyre alkalmasabb ez a nyelv.
+A ROS programozására lehetőség van Python és C++ nyelven is. Én a Python mellett döntöttem, mert a későbbiekben szeretném gépi látással is bővíteni a projektet, amelyre megítélésem szerint tapasztalat nélkül alkalmasabb ez a nyelv. Főleg a Python 3, ami az újabb ROS-sal működik rengeteg lehetőséget rejt magában.
 
 \subsection{Valós idejű vezérlés IP alapon}
 
@@ -300,6 +304,26 @@ A viszonylag sok nem működő teszt közben felmerült az ötlet bennem, hogy a
 
 Az NDI megfontolása utáni további sikertelen RTC tesztek után jutottam el az RTP-hez. FFmpeg\footnote{http://www.ffmpeg.org/} segítségével könnyen tudtam készíteni egy teszt streamet egy videó segítségével, melyet a generált \textit{SDP} fájl minimális módosítása után le is tudtam játszani VLC media playerrel. Ez után már könnyen megvalósítható volt, hogy Unity-ben is megjelenjen a stream, hiszen létezik könyvtára és azt tudtam alkalmazni.
 
+\subsubsection{WebRTC videó streamelés}
+
+Az első félévben elvetettem a WebRTC-n történő videójel átvitelt, ami annak volt köszönhető főként, hogy nem tudtam megoldani, hogy Python-ból ebben a környezetben streameljek. Most azonban a ROS újabb verziójával kompatibilis Python3-hoz van olyan könyvtár, amely lehetővé teszi ezt, úgyhogy visszatértem ehhez a megoldáshoz.
+
+A WebRTC mellett szól, hogy igen könnyen lehet webböngészőben is megjeleníteni belőle videót, hiszen főleg erre lett kifejlesztve, illetve gyorsabbnak mondják, mint az RTP-t, amit korábban használtam. Azzal nekem is az volt a tapasztalatom, hogy körülbelül egy-két másodperc eltelt aközött, hogy megmozdult a robot és, hogy láttam ezt a mozgást a videón is. Az én alkalmazásomban kritikus lenne a lehető legkisebb késleltetés, hiszen csak úgy lehet hatékonyan irányítani bármit, ha azonnal látjuk mi történik vele.
+
+\insertfig{webrtc-architecture}{A WebRTC architektúrája}{12cm}{h!}
+
+\Afigref{webrtc-architecture} ábrán látszik a WebRTC működési struktúrája:
+\begin{enumerate}
+  \item Első lépésként a videót küldeni kívánó partner elküld egy SDP leírót a fogadó félnek címezve, ekkor ő még nem tudja annak a címét, így szükség van egy signaling controller-re, amely továbbítani tudja az üzenetet.
+  \item Ez után a fogadó fél megjegyzi a kapott információkat és generál rá egy választ, szintén egy SDP leírás formájában, amit a signaling serveren keresztül eljuttat a küldő félnek.
+  \item Ekkor tulajdonképpen fel tud épülni a kapcsolat közöttük. Amennyiben NAT mögött vannak a felek szükség lehet STUN vagy TURN szerverekre, amelyek központi továbbítóként helyet foglalnak a két fél között, hiszen a NAT miatt közvetlen kapcsolat nem lenne lehetséges.
+\end{enumerate}
+
+Signalingra többféle megoldás közül lehet választani. A legegyszerűbb módja, ha valaki kézzel átmásolja az üzeneteket a két fél között, bár ez mindennapos használati környezetben érthető okokból nem kivitelezhető. Mivel a cél csupán annyi, hogy az üzenetek eljussanak bármilyen megbízható úton, tulajdonképpen bármit választhatunk, ami nekünk kényelmes. Lehet az egy TCP kapcsolat, vagy más.
+
+Signaling szervernek én a már amúgy is használt RabbitMQ brókert választottam, abban definiáltam üzenetküldő sorokat, melyeken tudják a felek küldeni egymásnak a szükséges információkat. Annak érdekében, hogy az üzenetek a megfelelő félhez jussanak el, két sort definiáltam, egyet, melyen a küldő fél elküldi az offer-t, illetve egy másikat amelyen a vezérlő kliens - aki fogadni fogja a videót - válaszol. Ilyen módon elkülönül a kommunikáció iránya, és nem történhet meg véletlenül sem az, hogy az, aki elküldi az üzenet meg is kapja azt.
+
+
 \subsection{A rendszer tervezett felépítése}
 
 A techológiák kiválasztása után a következő felépítés alakult ki a terveimben:
@@ -315,25 +339,51 @@ Ettől függetlenül történik a kamerakép streamelése a kliensnek IP alapon.
 
 \subsection{ROS}
 
-Mivel alapvetően Windows operációs rendszert használok, eredetileg megpróbáltam erre telepíteni a ROS környezetet, viszont miután felelepítettem sajnos nem működött rendesen. Mivel az Ubuntu egy ajánlott operációs rendszer, ezért készítettem egy virtuális gépet, melyre Ubuntut, majd a ROS-t telepítve szerencsére működött a rendszer.
+Mivel alapvetően Windows operációs rendszert használok, eredetileg megpróbáltam erre telepíteni a ROS környezetet, viszont miután feltelepítettem sajnos nem működött rendesen. Mivel az Ubuntu az ajánlott operációs rendszer, ezért készítettem egy virtuális gépet, melyre Ubuntut, majd a ROS-t telepítve szerencsére működött a rendszer.
 
 A ROS alap csomagok telepítése után elkészítettem a projekt alapját adó Catkin workspacet a megfelelő mappastruktúra kialakításával, majd a \textit{catkin\_make} parancs futtatásával. Ennek a könyvtárrendszernek a \textit{src} mappájába kell írjuk a forráskódunk, melyet szeretnénk futtatni ROS-on belül. Ebbe a mappába helyeztem el a robotkarhoz tartozó MoveIt konfigurációt is, melyet futtatni kell, hogy a vezérlése eljusson hozzá.
 
-A ROS-on belül két fő node-ot valósítottam meg Python-ban, mint az \afigref{felepites} ábrán is látszik. Az egyik felelős az IP alapú kommunikáció feldolgozásáért és átfordításáért a ROS-on belülre. Tőle kapja meg a mozgatási információkat a másik fő modul, a robotkar mozgató komponens. Ő végzi a robottal való kommunikációt, utasítja, hogy hova mozogjon, és kiolvassa az állapotát is. A jövőben szeretném még bővíteni a funkcionalitást, ami valószínűleg több modult fog igényelni.
+A robotkarhoz fontos, hogy megfelelő drivert használjunk. Több ilyet is kipróbáltam, mert változó kompatibilitással rendelkeznek ezek a csomagok. Az általam használt csomag eleinte a Githubon megtalálható \emph{Universal Robot}\footnote{https://github.com/ros-industrial/universal\_robot} volt, viszont mikor elkezdtem a fizikai robotkarral dolgozni rá kellett jöjjek, hogy azzal ez nem működik, ekkor tértem át az \emph{Universal Robots ROS Driver}\footnote{https://github.com/UniversalRobots/Universal\_Robots\_ROS\_Driver} csomagra. Mindkét csomag rendelkezik MoveIt! támogatással is és használhatjuk vele az Universal Robots számos karját. (A korábban használt csomag nem támogatja többek között a gyártó újabb, e-szériás robotkarjait, amilyen a tanszéki laborban is megtalálható.)
 
-A feladat leírásában szerepel, hogy egy futószalagon érkező termékeket egy, a robotkar mellett elhelyezett kamerán keresztül lehet látni. Sajnos ilyen szintre nem jutott el a fejlesztés, viszont a kamerakép továbbítását mindenképpen szerettem volna valamilyen módon helyettesíteni. Erre a célra végül az ffmpeg segítségével egy képernyőképet továbbítottam a felhasználói kliens felé, mint az látható \afigref{unity_vezerles_robottal} ábrán.
+
+A ROS-on belül eleinte két fő node-ot valósítottam meg Python-ban, mint az \afigref{felepites} ábrán is látszik. Az egyik felelős az IP alapú kommunikáció feldolgozásáért és átfordításáért a ROS-on belülre. Tőle kapja meg a mozgatási információkat a másik fő modul, a robotkar mozgató komponens. Ő végzi a robottal való kommunikációt, utasítja, hogy hova mozogjon, és kiolvassa az állapotát is.
+
+\insertfig{felepites_22tavasz}{A rendszer felépítése a 2022 tavaszi félév végén}{14cm}{h!}
+
+\Afigref{felepites_22tavasz} ábrán látszódnak a fejlesztés közben kialakult új modulok, illetve az azok közötti kommunikáció. Az egyik legnagyobb változás a webes vezérlő megjelenése, amelyet \asectref{webclient} részben tárgyalok. Ezen kívül látszik, hogy hogy illeszkedik a rendszerbe az új videóküldő modul.
+
+A feladat leírásában szerepel, hogy egy futószalagon érkező termékeket egy, a robotkar mellett elhelyezett kamerán keresztül lehet látni. Az első félév során ilyen szintre nem jutott el a fejlesztés, viszont a kamerakép továbbítását mindenképpen szerettem volna valamilyen módon helyettesíteni. Erre a célra akkor az ffmpeg segítségével egy képernyőképet továbbítottam a felhasználói kliens felé, mint az látható \afigref{unity_vezerles_robottal} ábrán.
+
+A második félévben, mivel váltottam ROS Noetic disztribúcióra, át kellett álljak Python3-ra. Ez különösebben nagy változtatásokat nem igényelt az eddig megvalósított komponensekben, viszont új lehetőséget nyitott meg előttem. Már korábban is megtaláltam az \emph{aiortc}\footnote{https://github.com/aiortc/aiortc} Python könyvtárat, viszont használni nem tudtam a ROS kinetic Python2 kötöttsége miatt. Újabban viszont már bele tudtam építeni a rendszerbe és mivel kisebb késleltetést ígér a WebRTC az RTP-nél, meg is tettem. Ezzel a videóstreamelés is be tudott kerülni a ROS-on belül egy modulba, ami által jobban egy egységet képez a rendszer és a videós modul is tud kommunikálni a ROS ökoszisztéma többi tagjával, hogy például letiltsa a robot mozgását, ha megszűnik a videós kapcsolat, hiszen az igen veszélyes helyzetet tudna előidézni, ha a kezelő nem látja mit csinál, de a robot továbbra is végrehajtja az utasításait.
 
 \subsection{Felhasználói kliens}
+
+\subsubsection{VR/AR kliens}
 
 Mint azt a tervek között is írtam, a kliensoldali alkalmazást, mely VR szemüvegen, annak kézi vezérlőivel kiegészítve kerül használatra, Unity környezetben készítettem. Korábban még nem használtam ezt a feljesztői eszközt, így eleinte nehézséget okoztak az alapvető feladatok is. Számos tesztalkalmazást készítettem különböző használni kívánt technológia kipróbálására, ezeknek a sikeres működése után kezdtem el elkészíteni a tényleges szoftvert.
 
 Az alkalmazás design-ja jelenleg igen kezdetleges, mindenképpen szeretnék rajta még változtatni, illetve javában szükséges bővíteni is. Helyet kapott egy virtuális képernyő, melyen megjelenik a ROS felől érkező videójel. Emellett kaptak helyet az egyelőre gomb formájában megvalósult vezérlőszervek. Jelenleg csupán alapvető mozgatási parancsokat tudunk küldeni a robotkarnak, ez is bővülni fog a jövőben, viszont a tényleges vezérlést nem ilyen féle felülettel szeretném elkészíteni, hanem a VR szemüveghez tartozó kézi vezérlőkkel. Az ezek adta lehetőségeket kihasználva minél kevesebb hagyományos interakciós eszközt szeretnék használni, mint például gombokat.
 
-\insertfig{unity_vezerles_robottal}{A felhasználói kliens felülete IP alapon fogadott videóképpel}{14cm}{h!}
+\insertfig{unity_vezerles_robottal}{A felhasználói kliens felülete IP alapon fogadott videóképpel}{13cm}{h!}
 
 \Afigref{unity_vezerles_robottal} ábrán látható az elkészült kliens felülete. Megvalósításra vár még a tervekben említett több futási mód, illetve szeretném a robot virtuális megjelenítését is, esetleg a környezetével együtt, így is megkönnyítve a kezelő munkáját, lehetővé téve neki, hogy mindig lássa a robotkar aktuális állapotát.
 
 A videó fogadását a VLClib Unity alá készült verziója végzi, ami egy viszonylag nagyméretű vízjelet helyez el a képen. Ezt szeretném megoldani majd, hogy ne látszódjon, akár más fogadó könyvtár használatával.
+
+\subsubsection{Webes kliens}\label{sect:webclient}
+
+A korábbi fejlesztés során több új keretrendszert is meg kellett ismerjek egyszerre, úgy éreztem ez csökkenti a fejlesztés hatékonyságát, így megpróbáltam kizárni legalább egyet a teljesen ismeretlen platformok közül. Mivel eleinte inkább a robot vezérlésének összeépülésére szerettem volna koncentrálni, ezért úgy döntöttem a VR kliens és annak környezete, a Unity helyett készítek egy egyszerű webes vezérlőfelületet. Az elmúlt években több webalkalmazást is készítettem már, így abban kényelmesebben érzem magam, mint Unity alatt, ahol még semmit nem készítettem.
+
+\insertfig{webclient-control}{A webes kliens vezérlő oldala}{13cm}{h!}
+
+A kliens fő oldala a vezérlőfelület, ahol látjuk a robottól érkező videóképet, illetve tudunk neki üzeneteket küldeni. Ez a felület látható \afigref{webclient-control} ábrán. Lehetőség van a kar fejét több irányba mozgatni, forgatni a kart, illetve egy előre definiált home pozícióba való visszatérésre is tudjuk utasítani. Ez még mindig nem a megfelelő mennyiségű szabadsági fokkal rendelkező irányítás, ami a könnyű vezérléshez szükséges, de tesztelésre megfelelő. Kísérleteztem a félév során egy webkamerán keresztül a felhasználó kezét felismerő rendszer használatával, viszont annak a fejlesztése nem került olyan állapotba, hogy rendesen működjön.
+
+A VR felülettel korábban probléma volt, hogy ha máshol futtattam a rendszer, akkor a változó IP címek miatt változtatnom kellett a forráskódot. Ez normális környezetben értelemszerűen nem kivitelezhető, így a webes kliens kapott egy beállítások oldalt, ahol meg tudjuk adni a ROS PC IP címét, amin elérhetővé válik számunkra. Ez a felület látszik \afigref{webclient-settings} képen. Itt a továbbiakban még más beállítási lehetőségek is meg fognak jelenni terveim szerint.
+
+\insertfig{webclient-settings}{A webes kliens beállításokat tartalmazó felülete}{7cm}{h!}
+
+A webes kliens feladata tehát leginkább az volt, hogy teszt jelleggel könnyebben tudjak küldeni vezérlő üzeneteket a ROS felé és tudjam tesztelni az onnan érkezőket. A használata közben rájöttem viszont, hogy bizonyos konfigurációs feladatokra valószínűleg praktikusabb, mint a VR környezet, így valószínűleg a későbbiekben is meg fogom tartani.
+
 
 \subsection{Kommunikáció}
 
@@ -341,32 +391,60 @@ A kliens és a ROS közti kommunikáció RabbitMQ-n keresztül zajlik. Ehhez sz�
 
 \insertfig{rabbit_queue}{A RabbitMQ webes felülete}{14cm}{h!}
 
+A webes kliens nem képes közvetlenül AMQP protokollon kapcsolódni a RabbitMQ szerverhez, így szükség volt arra is, hogy a Rabbit-et kiegészítsem egy pluginnal, amely WebSocket felett, STOMP protokoll segítségével is továbbít üzeneteket, amiket már tud fogadni a kliens.
+
 A terveimet úgy készítettem el, hogy a különböző célú üzenetek más-más üzenetsorokban kerülnek küldésre. Ezek a sorok többek között:
 \begin{itemize}
   \item \emph{robot-status}: itt küldi a ROS felőli oldala a rendszernek a robot állapotát kis időközönként
   \item \emph{move-robot}: itt megadhatunk egy (x, y, z) alakú vektort, amivel a robot fejét szeretnénk elmozgatni
   \item \emph{set-joints}: ebben a sorban lehet olyan üzenetet küldeni a ROS fele, amelyben a robot csuklóinak egy kívánt állapota szerepel
+  \item \emph{webrtc}: WebRTC signalinghoz használt csatorna
+  \item \emph{webrtc-resp}: WebRTC signalinghoz használt csatorna
 \end{itemize}
 
 Az alkalmazás selejtdetekcióra való használatához további üzenetcsatornák lesznek szükségesek, ezeknek a tervezését még nem véglegesítettem.
 
 A ROS-on belül a saját topic alapú kommunikációját használtam. Többek között kerülnek átfordításra az IP alapon kívülről érkező csomagok is, egyéb szükséges kommunikáció is ezen keresztül zajlik a ROS node-ok között.
 
+\subsection{Valós robotkar vezérlése}
+
+A második féléves munka egyik nagyobb célja volt, hogy a szimulátoros tesztelés után a valós robotkar is megmozduljon.
+
+\insertfig{robotkar-labor}{Az Universal Robots 5e robotkar a laborban}{10cm}{h!}
+
+A legnagyobb akadályokat ebben is az okozta, hogy nem rendelkezem tapasztalattal ilyen területen, mindent fel kellett fedezzek és körül kellett járjak, mielőtt sikerült megvalósítanom. Az általam eredetileg használt, a szimulátorban működő driver a robotkarhoz nem volt megfelelő, így több verziót ki kellett próbáljak. Volt olyan driver is, amelynek buildelése során a catkin\_make hibával leállt, viszont később kiderült számomra, hogy az a megfelelő driver, csupán mivel korábban használtam egy régebbi verzióját, azért nem tudott lefutni és ha kitöröltem a korábban előállt futtatható állományokat, akkor már nem ütközött hibába.
+
+A megfelelő driver kiválasztásával egyidőben ismerkedtem azzal is, hogy miként lehet kapcsolódni a robotkarhoz fizikailag, illetve hogy működik annak a saját vezérlője. A robot központi vezérlője és a ROS-t futtató számítógép egyszerű IP hálózaton keresztül kommunikálnak, ami jelen esetben csupán egy, a két eszközt összekötő UTP kábel. A robothoz tartozik egy kézi vezérlő egység is, ezen keresztül lehet konfigurálni, illetve saját programokat készíteni rá. Mivel ez a robotkar egy kollaboratív robot, a megfelelő opció kiválasztása után kézzel is lehetőség van mozgatni a kart egy kívánt pozícióba. A kézi egység érintőkijelzőjén megjelenő gombokkal lehetőség van manuálisan is mozgatni a kart, hasonlóan ahhoz a rendszerhez, melyet én készítettem, csupán ennek az esetében korlátozza a vezérlő személy hollétét az egységet és a robotkart összekötő kábel hossza.
+
+\insertfig{robot-vezerlo}{A robotkarhoz tartozó kézi vezérlő egység}{8cm}{h!}
+
+Több a robotkarhoz való sikertelen kapcsololódás után derült ki számomra, hogy nem megfelelően próbáltam elérni ezt a célt, ugyanis a kar vezérlőjén el kell indítani egy programot, amely felépíti a kapcsolatot a robot és a számítógépen futó vezérlés között. Miután ezt is megfelelően csináltam, már működött is a vezérlés az én rendszerem által. Tudtam vezérelni a kart és kaptam tőle visszajelzést is az állapotáról, a csuklók pozíciójáról.
+
+
+\newpage
+\section{Összefoglaló gondolatok}
+
+Azt gondolom, hogy 1 év alatt, amióta ezt a projektet csinálom, jelentősen nagyobb előrehaladás is elérhető lett volna, ha rendelkezem tapasztalattal a releváns területeken. Nagyjából minden, amit használtam a rendszer összeállításához, a ROS, a Unity, kis késleltetésű videóstreamelés, maga a robotkar, de Pythonnal, Ubuntuval se foglalkoztam sokat korábban. Mivel nem egy mindennapi, bárki által otthon is fejleszthető alkalmazás a robotika, jelentősen kevesebb leírás, erőforrás áll rendelkezésre is az interneten ebben a témakörben.
+
+Rendkívül sok új technológiát ismertem meg a rendszer fejlesztése során. A használt eszközök nagyon szerteágazók, a robotikán kívül sokat kellett foglalkozzak még más olyan területekkel is, amelyek számomra nem voltak egyértelműek, rendkívül sokat kellett utánaolvassak dolgoknak. Nagyon nehéz volt számomra úgy fejleszteni egy rendszert, hogy ha megcsináltam sok próbálkozás után egy részét, akkor a következő részénél is ugyanúgy majdnem minden lépést sok kutatás kellett megelőzzön, nem volt egy biztos pontja, amit jól ismertem. (Ezért döntöttem a második félév elején a webes irányítás elkészítése mellett, amelynek szintén voltak olyan részei, amihez hasonlót korábban még nem csináltam.)
+
+A második félév alatt összességében sajnos nem jutott annyi időm a rendszer fejlesztésére, amennyit szerettem volna eleinte, de remélem, hogy be fogok tudni pótolni az elmaradást.
+
+\newpage
 \section{További tervek}
 
-Jelenleg az alkalmazás, mint azt már említettem is, igen kezdetleges állapotban van. A féléves munkám nagyobb részét a technológiákkal való ismerkedés, a lehetőségek feltárása tette ki, a tényleges feljesztésre nem maradt annyi időm, mint szerettem volna. Mindenképpen szeretném jobban kidolgozni a rendszert, elérni egy olyan állapotba, ami ténylegesen használható.
+A rendszer egy éves munkám alatt eljutott egy olyan fázisba, hogy lehet a robotkart távolról vezérelni és a vezérlő felületen láthatunk egy élő videóképet róla. Nagyon sok időm ment el arra, hogy megismerjem a használni kívánt technológiákat és megfelelő módon kezdjem el használni őket. A jelenlegi állapot már azt gondolom egy jó alap annak, hogy meg tudjam kezdeni a konkrétabb alkalmazások ráépítését és, hogy ki tudjam dolgozni a kezdetekkor megálmodott VR/AR alapú vezérlést is.
 
 Jelenlegi konkrét fejlesztési terveim nagy vonalakban a következők:
 \begin{itemize}
-  \item A videóátvitel optimalizálása, gyorsítása. Jelenleg nagyjából egy másodperc az átvitel késleltetése, ami nehezen használhatóvá tenné a rendszert, ezt mindenképpen szeretném csökkenteni.
+  \item A videóátvitel optimalizálása, gyorsítása.
   \item Kliensalkalmazás kibővítése rengeteg tervezett funkcióval, többek között:
   \begin{itemize}
     \item Konfigurációs és kezelői mód különválasztása
-    \item Robot megjelenítése
+    \item Virtuális robot megjelenítése, amely tükrözi a valósat
     \item VR rendszerhez tartozó kézivezérlők alkalmazása irányításra
-    \item ROS oldal elérési címének és egyéb változók beállíthatósága felhasználói felületről
   \end{itemize}
-  \item Szimulációs környezetből áttérni a ,,valóságba". Szimulátorról készült képernyőkép streamelése helyett tényleges kamerakép közvetítése a valódi robotkarról, kliensalkalmazás VR szemüvegen való futtatása.
+  \item Gépi látással való foglalkozás, hogy a robotkar alapvető mozdulatokat végre tudjon hajtani magától
 \end{itemize}
 
 
